@@ -73,7 +73,7 @@ prelude = r"""
 import tutorial_highlighter
 
 tutorial_highlighter.render_code(
-    code, tags, regions, ", listings_settings,
+    code, tags, regions, "code-1.png", listings_settings,
     varwidth_frac=1.05, user_prelude=prelude)
 ```
 
