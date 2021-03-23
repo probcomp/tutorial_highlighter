@@ -1,6 +1,8 @@
 # tutorial_highlighter
 
-Python package for generating PNGs of code and math with custom highlighted regions using LaTeX
+Python package for generating PNGs of code and math with custom highlighted regions using LaTeX.
+
+Intended for use in creating presentations and tutorials, where you want the audience to attend to specific pieces of the code and/or associated math.
 
 ## Installation
 
@@ -21,7 +23,7 @@ There are two functions provided, `render_code` and `render_math`.
 
 1. Create a string containing your code, with unique **tags** dispersed throughout (a string wrapped in `(*` and `*)`):
 ```python
-model_code = """\
+code = """\
 @gen function model((*1*)floorplan(*2*), (*3*)approx_start_location(*4*), T)
     (*5*)start_location(*6*) ~ (*7*)mvnormal((*8*)approx_start_location(*9*), [0.004 0.0; 0.0 0.004])(*10*)
     (*11*)destination(*12*) ~ (*13*)uniform_destination_prior()(*14*)
@@ -68,7 +70,7 @@ prelude = r"""
 import tutorial_highlighter
 
 tutorial_highlighter.render_code(
-    model_code, tags, regions, ", listings_settings,
+    code, tags, regions, ", listings_settings,
     varwidth_frac=1.05, user_prelude=prelude)
 ```
 
@@ -79,5 +81,53 @@ You can generate many frames of a given code block, with different highlighting,
 ![Animation of code highlighting](code.gif)
 
 ### `render_math`
+
+
+1. Create a string containing your LaTeX math, with **matched tags** dispersed throughout (each tag is a string wrapped in `(*` and `*)`).
+Note that unlike for `render_code`, **the same tag must be used twice, and each tag delineates a region that may be highlighted**.
+(This distinction from `render_code` is due to implementation limitations, and it would be better to present a uniform tagging interface.)
+```python
+math = r"""
+\begin{equation*}\begin{array}{l}%
+p(\mathbf{z}_{\mathrm{start}}, \mathbf{z}_{\mathrm{dest}},\mathbf{z}_{\mathrm{traj}}, \mathbf{x}_{\mathrm{meas}}) =\\
+\begin{array}[t]{l}
+(*1*)p(\mathbf{z}_{\mathrm{start}})(*1*)
+\cdot (*2*)p(\mathbf{z}_{\mathrm{dest}})(*2*)
+\cdot (*3*)p(\mathbf{z}_{\mathrm{traj}} | \mathbf{z}_{\mathrm{dest}}, \mathbf{z}_{\mathrm{start}})(*3*)\\
+\cdot (*4*)p(\mathbf{x}_{\mathrm{meas}} | \mathbf{z}_{\mathrm{traj}})(*4*)
+\end{array}
+\end{array}
+\end{equation*}
+"""
+```
+
+2. Create a list of all tags in the code (to facilitate error-detection):
+```python
+tags = [str(i) for i in range(1, 4+1)]
+```
+
+3. Indicate the set of regions (**a single tag**) to be highlighted.
+For example, to highlight only the expression of the density on the start variable, we use:
+```python
+regions = ["1"]
+```
+
+NOTE: As above, it is recommended to use more informative tags that are not simply numbers (as in this example), at the cost of being more verbose.
+
+4. As above, you may provide a prelude that will be added to the LaTeX file before the document begins:
+```python
+prelude=r"""
+\usepackage{amsmath,amssymb}
+"""
+```
+
+5. Then, you render the math listing with highlighting to a PNG file:
+```python
+import tutorial_highlighter
+
+tutorial_highlighter.render_math(
+    math, tags, regions, "math-1.png",
+    varwidth_frac=0.55, user_prelude=prelude)
+```
 
 ![Animation of math highlighting](math.gif)
