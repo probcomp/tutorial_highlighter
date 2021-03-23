@@ -1,5 +1,6 @@
 import re
-from .util import make_documentclass, render_to_png, tag_to_str, check_tag_occurs, HIGHLIGHT_COLOR
+from .util import make_documentclass, render_to_png, tag_to_str, check_tag_occurs
+from . import DEFAULT_HIGHLIGHT_COLOR
 
 # all_regions is a list of TAGS, that must begin and end regions; the regions may not overlap
 
@@ -26,26 +27,21 @@ def apply_math_highlighting(math, all_regions, regions_to_highlight):
 
     return math
 
-def make_math_prelude():
+def make_math_prelude(color, user_prelude):
     return "\n".join([
-    r"""
-        \usepackage{xcolor}
-        \usepackage{bm}
-        \usepackage{algpseudocode}
-        \usepackage{amsmath,amssymb}
-        \algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}
-    """,
-    (r"\definecolor{highlightcolor}{HTML}{" + str(HIGHLIGHT_COLOR) + r"}"),
-    r"""
-        \newcommand{\hlight}[2]{\setlength{\fboxsep}{0pt}\colorbox{#1}{#2}}
-    """])
+        r"""\usepackage{xcolor}""",
+        r"""\definecolor{highlightcolor}{HTML}{""" + str(color) + r"}",
+        r"""\newcommand{\hlight}[2]{\setlength{\fboxsep}{0pt}\colorbox{#1}{#2}}""",
+        user_prelude])
 
-
-def render_math(math, all_regions, regions_to_highlight, png, varwidth_frac=None):
+def render_math(
+        math, all_regions, regions_to_highlight, png,
+        varwidth_frac=None, color=DEFAULT_HIGHLIGHT_COLOR,
+        user_prelude=""):
 
     math = apply_math_highlighting(math, all_regions, regions_to_highlight)
     documentclass = make_documentclass(varwidth_frac)
-    prelude = make_math_prelude()
+    prelude = make_math_prelude(color, user_prelude)
     begindocument = r"\begin{document}"
     enddocument = r"\end{document}"
 
