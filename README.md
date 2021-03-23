@@ -1,4 +1,4 @@
-# gen_slide_helper
+# tutorial_highlighter
 
 Python package for generating PNGs of code and math with custom highlighted regions using LaTeX
 
@@ -9,8 +9,8 @@ Ensure that the executables `convert` from [ImageMagick](https://imagemagick.org
 Clone the repository, and install the Python package into your Python environment:
 
 ```
-git clone git@github.com:probcomp/gen_slide_helper.git
-pip install gen_slide_helper
+git clone git@github.com:probcomp/tutorial_highlighter.git
+pip install tutorial_highlighter
 ```
 
 ## Usage
@@ -19,4 +19,8 @@ There are two functions provided, `render_code` and `render_math`.
 
 ### `render_code`
 
+![Animation of code highlighting](code.gif)
+
 ### `render_math`
+
+![Animation of math highlighting](math.gif)
