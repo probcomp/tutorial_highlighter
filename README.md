@@ -59,6 +59,7 @@ lstset = r"""
       basicstyle=\ttfamily\small,
       numbers=left
     }
+"""
 escapeinside = (r"(@*", r"*@)")
 listings_settings = (lstset, escapeinside)
 
