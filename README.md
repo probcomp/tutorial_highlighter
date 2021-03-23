@@ -8,6 +8,8 @@ Intended for use in creating presentations and tutorials, where you want the aud
 
 Ensure that the executables `convert` from [ImageMagick](https://imagemagick.org/index.php) and `pdflatex` are on the `PATH`.
 
+Ensure that the `highlighter.sty` file provided in this repository is available to `pdflatex`.
+
 Clone the repository, and install the Python package into your Python environment:
 
 ```
