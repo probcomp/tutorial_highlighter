@@ -108,7 +108,7 @@ p(\mathbf{z}_{\mathrm{start}}, \mathbf{z}_{\mathrm{dest}},\mathbf{z}_{\mathrm{tr
 tags = [str(i) for i in range(1, 4+1)]
 ```
 
-3. Indicate the set of regions (**a single tag**) to be highlighted.
+3. Indicate the set of regions (recall that each region is **a single tag**) to be highlighted.
 For example, to highlight only the expression of the density on the start variable, we use:
 ```python
 regions = ["1"]
